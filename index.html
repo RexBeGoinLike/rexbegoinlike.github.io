@@ -1,11 +1,22 @@
-<html id = "website">
+<html>
 	<head>
 		<style>
+			#dim{
+			opacity: 0.7;
+			background: black;
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			top: 0;
+			z-index: 8;
+			}
 			#my{
 			zoom: 80%;
 			}
 			#body{
 			background: url("theaterbg.jpg");
+			margin: 0;
 			}
 			#BGM{
 			position: absolute;
@@ -17,6 +28,7 @@
 			left: 510px;
 			width: 600px;
 			height: 400px;
+			z-index: 4;
 			}
 			#imgcont{
 			position: absolute;
@@ -25,6 +37,7 @@
 			width: 650px;
 			height: 450px;
 			border: 4px dashed white;
+			z-index: 1;
 			}
 			#bottomcontainer{
 			position: fixed;
@@ -32,6 +45,7 @@
 			left: 0px;
 			width: 1800px;
 			height: 150px;
+			z-index: 2;
 			}
 			#play{
 			transition: transform .2s;
@@ -46,6 +60,7 @@
 			height: 100px;
 			left: 750px;
 			top: 620px;
+			z-index: 3;
 			}
 			#previous{
 			position: absolute;
@@ -59,6 +74,7 @@
 			height: 80px;
 			left: 630px;
 			top: 630px;
+			z-index: 3;
 			}
 			#next{
 			position: absolute;
@@ -71,7 +87,8 @@
 			width: 80px;
 			height: 80px;
 			left: 880px;
-			top: 630px;			
+			top: 630px;
+			z-index: 3;
 			}
 			#framenum{
 			position: absolute;
@@ -79,6 +96,7 @@
 			height: 30;
 			left: 600px;
 			top: 750px;
+			z-index: 7;
 			}
 			#play:hover{
 			opacity: 0.8;
@@ -94,18 +112,50 @@
 			}
 
 			#settings{
+			position: absolute;
 			border-radius: 50%;
 			width: 65px;
 			height: 65px;
+			z-index: 5;
 			}
+			#soundfx{
+			position: absolute;
+			left: 80px;
+			border-radius: 50%;
+			width: 65px;
+			height: 65px;
+			z-index: 6;
+			}
+			#startup{
+			position: absolute;
+			border-radius: 25px;
+			width: 680px;
+			height: 480px;
+			background-color: brown;
+			left: 470px;
+			top: 120px;
+			z-index: 9;
+			}
+			#startbutt{
+			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+			position: absolute;
+			top: 350px;
+			left: 300px;
+			}
+
 		</style>
 	</head>
 	<body id = "body">
-		<audio id = "BGM" controls loop>
-		<source src = "Cyrus, the Scholar - Octopath Traveler Character Theme.mp3" type = "audio/mpeg">
-		</audio>
+		<div id ="startup">
+		<button id = "startbutt" onclick = "startsite()">Start</button>
+		</div>
+		<div id="dim"></div>
+		
 		<button id = "settings">Settings</button>
-		<button id = "sound">Mute SFX</button>
+
+		<button id = "soundfx" onclick = "mutemusic()">Mute SFX</button>
 		
 		
 		<img src = "imgcontbg.png"id = "imgcont"></img>
@@ -118,7 +168,7 @@
 		<progress id = "framenum" value = "0" max = "5"></progress>
 		<script>
 			
-			var BGM = document.getElementById("BGM");
+			var BGM = new Audio('Cyrus, the Scholar - Octopath Traveler Character Theme.mp3');
 			var image = document.getElementById("currentimg");
 			var nxt = document.getElementById("next");
 			var prev = document.getElementById("previous");
@@ -129,8 +179,16 @@
 			var autoplayon = false;
 			var bar = document.getElementById("framenum");
 			var switchpage = new Audio('Search Spotlight Turn On Sound Effect-[AudioTrimmer.com].mp3');
-			BGM.autoplay = true;
+			
+			function startsite(){
+			document.getElementById("startup").style.display = "none";
+			document.getElementById("startbutt").style.display = "none"; 
+			document.getElementById("dim").style.display = "none";
+			BGM.loop = true;
 			BGM.volume = 0.7;
+			BGM.play();
+			}
+			
 			for(x = 1;x <= 6; x++){
 				imgsrc.push("frame (" + x + ").jpg");
 			}
@@ -160,6 +218,7 @@
 			window.setTimeout(next, 100);
 			window.setTimeout(fadein, 200);
 			switchpage.play();
+			
 			}
 			function toprev(){
 			fadeout()
@@ -204,8 +263,16 @@
 				window.setTimeout(fadein, 20);
 				}
 			}
-		
-			
+			var musicmuted = false;
+			function mutemusic(){
+				if (musicmuted == false){
+					BGM.muted = true;
+					musicmuted = true;
+				}else{
+					BGM.muted = false;
+					musicmuted = false;
+			}
+			}
 		</script>
 	</body>
 </html>
