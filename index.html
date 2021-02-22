@@ -5,16 +5,6 @@
 			font-family: customFont;
 			src: url('AkayaKanadaka-Regular.ttf');
 			}
-			#dim{
-			opacity: 0.7;
-			background: black;
-			position: fixed;
-			bottom: 0;
-			right: 0;
-			left: 0;
-			top: 0;
-			z-index: 8;
-			}
 			#body{
 			zoom: 80%;
 			background: url("theaterbg.jpg");
@@ -143,6 +133,7 @@
 			z-index: 9;
 			}
 			#startbutt{
+			display: none;
 			border-radius: 50%;
 			width: 80px;
 			height: 80px;
@@ -153,12 +144,14 @@
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 50px 50px;
+			z-index: 10;
 			}
 			#startmessage{
 			color: white;
 			font-size: 35px;
 			font-family: customFont;
 			text-align: center;
+			z-index: 10;
 			}
 			#wrning{
 			position: absolute;
@@ -166,13 +159,31 @@
 			width: 70px;
 			top: 20px;
 			left: 300px;
+			z-index: 10;
 			}
 			span{
-			color: yellow;;
+			color: yellow;
+			}
+			#dim{
+			opacity: 0.7;
+			background: black;
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			top: 0;
+			z-index: 8;
+			}
+			#loadicon{
+			z-index: 11;
+			position: absolute;
+			top: 510px;
+			left: 780px;
 			}
 		</style>
 	</head>
-	<body id = "body">
+	<body onload = "startpage()" id = "body">
+	<img id = "loadicon" src = "animatedicon.gif"></img>
 		<div id ="startup">
 		<p id = "startmessage">
 		<img src = "warning.png" id = "wrning"></img>
@@ -198,6 +209,7 @@
 		<button id = "next" onclick = "tonext()"></button>
 		<button id = "play" onclick = "autoplay()"></button>
 		<progress id = "framenum" value = "0" max = "5"></progress>
+		
 		<script>
 			document.body.style.zoom = "80%";
 			
@@ -308,6 +320,10 @@
 					musicmuted = false;
 					buttonformute.style.backgroundImage = "url('unmuteicon.png')";
 			}
+			}
+			function startpage(){
+				document.getElementById("loadicon").style.display = "none";
+				document.getElementById("startbutt").style.display = "block";
 			}
 		</script>
 	</body>
