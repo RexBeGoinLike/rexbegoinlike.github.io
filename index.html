@@ -1,4 +1,4 @@
-<html>
+<html id = "website">
 	<head>
 		<style>
 			#my{
@@ -6,6 +6,10 @@
 			}
 			#body{
 			background: url("theaterbg.jpg");
+			}
+			#BGM{
+			position: absolute;
+			left: 600px;
 			}
 			#currentimg{
 			position: absolute;
@@ -30,6 +34,7 @@
 			height: 150px;
 			}
 			#play{
+			transition: transform .2s;
 			position: absolute;
 			background-image: url("playsymb.jpg");
 			background-size: 80px 80px;
@@ -68,17 +73,52 @@
 			left: 880px;
 			top: 630px;			
 			}
+			#framenum{
+			position: absolute;
+			width: 400px;
+			height: 30;
+			left: 600px;
+			top: 750px;
+			}
+			#play:hover{
+			opacity: 0.8;
+			cursor:url('cursorhover.png') 10 3, auto;
+			}
+			#next:hover{
+			opacity: 0.8;
+			cursor:url('cursorhover.png') 10 3, auto;
+			}
+			#previous:hover{
+			opacity: 0.8;
+			cursor:url('cursorhover.png') 10 3, auto;
+			}
+
+			#settings{
+			border-radius: 50%;
+			width: 65px;
+			height: 65px;
+			}
 		</style>
 	</head>
 	<body id = "body">
+		<audio id = "BGM" controls loop>
+		<source src = "Cyrus, the Scholar - Octopath Traveler Character Theme.mp3" type = "audio/mpeg">
+		</audio>
+		<button id = "settings">Settings</button>
+		<button id = "sound">Mute SFX</button>
+		
+		
 		<img src = "imgcontbg.png"id = "imgcont"></img>
-		<img src = "frame (1).jpg" id = "currentimg"> </img>
+		<img src = "frame (1).jpg" id = "currentimg"></img>
 		
 		<img src = "bottomcontbg.png" id = "bottomcontainer"></img>
 		<button id = "previous" onclick = "toprev()"></button>
 		<button id = "next" onclick = "tonext()"></button>
 		<button id = "play" onclick = "autoplay()"></button>
+		<progress id = "framenum" value = "0" max = "5"></progress>
 		<script>
+			
+			var BGM = document.getElementById("BGM");
 			var image = document.getElementById("currentimg");
 			var nxt = document.getElementById("next");
 			var prev = document.getElementById("previous");
@@ -87,7 +127,10 @@
 			var opacity = 1.0;
 			var index = 0;
 			var autoplayon = false;
-			
+			var bar = document.getElementById("framenum");
+			var switchpage = new Audio('Search Spotlight Turn On Sound Effect-[AudioTrimmer.com].mp3');
+			BGM.autoplay = true;
+			BGM.volume = 0.7;
 			for(x = 1;x <= 6; x++){
 				imgsrc.push("frame (" + x + ").jpg");
 			}
@@ -115,44 +158,50 @@
 			function tonext(){
 			fadeout()
 			window.setTimeout(next, 100);
-			window.setTimeout(fadein, 300);
+			window.setTimeout(fadein, 200);
+			switchpage.play();
 			}
 			function toprev(){
 			fadeout()
 			window.setTimeout(prevs, 100);
-			window.setTimeout(fadein, 300);
+			window.setTimeout(fadein, 200);
+			switchpage.play();
 			}
 
 			function next(){
 				if(index == imgsrc.length - 1){
 					index = 0;
 					image.src  = imgsrc[index];
+					bar.value = index;
 				}else{
 					index++;
 					image.src  = imgsrc[index];
+					bar.value = index;
 				}
 			}
 			function prevs(){
 				if(index == 0){
 					index = imgsrc.length - 1;
 					image.src  = imgsrc[index];
+					bar.value = index;
 				}else{
 					index--;
 					image.src  = imgsrc[index];
+					bar.value = index;
 				}
 			}
 			function fadeout(){
 				opacity -= 0.2;
 				image.style.opacity = opacity;
 				if (opacity > 0){
-				window.setTimeout(fadeout, 50);
+				window.setTimeout(fadeout, 10);
 				}
 			}
 			function fadein(){
 				opacity += 0.2;
 				image.style.opacity = opacity;
 				if(opacity < 1){
-				window.setTimeout(fadein, 50);
+				window.setTimeout(fadein, 20);
 				}
 			}
 		
