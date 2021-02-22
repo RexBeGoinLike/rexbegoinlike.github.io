@@ -1,6 +1,10 @@
 <html>
 	<head>
 		<style>
+			@font-face{
+			font-family: customFont;
+			src: url('AkayaKanadaka-Regular.ttf');
+			}
 			#dim{
 			opacity: 0.7;
 			background: black;
@@ -38,10 +42,10 @@
 			z-index: 1;
 			}
 			#bottomcontainer{
-			position: fixed;
+			position: absolute;
 			bottom: 0px;
 			left: 0px;
-			width: 1800px;
+			width: 1707px;
 			height: 150px;
 			z-index: 2;
 			}
@@ -122,6 +126,10 @@
 			border-radius: 50%;
 			width: 65px;
 			height: 65px;
+			background-image: url('unmuteicon.png');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 40px 40px;
 			z-index: 6;
 			}
 			#startup{
@@ -139,21 +147,47 @@
 			width: 80px;
 			height: 80px;
 			position: absolute;
-			top: 350px;
+			top: 380px;
+			left: 300px;
+			background-image: url('start.png');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 50px 50px;
+			}
+			#startmessage{
+			color: white;
+			font-size: 35px;
+			font-family: customFont;
+			text-align: center;
+			}
+			#wrning{
+			position: absolute;
+			length: 70px;
+			width: 70px;
+			top: 20px;
 			left: 300px;
 			}
-
+			span{
+			color: yellow;;
+			}
 		</style>
 	</head>
 	<body id = "body">
 		<div id ="startup">
-		<button id = "startbutt" onclick = "startsite()">Start</button>
+		<p id = "startmessage">
+		<img src = "warning.png" id = "wrning"></img>
+		<br/>
+		This is website is a work-in-progress, the current version of this page does not represent the final product.
+		This webpage will look better on devices with a resolution of <span>1366 x 768</span> and will only work on <span>Firefox and Google Chrome</span>.
+		If you are using <span>Firefox please set your zoom to 80% for the best experience. </span>Press start to begin.
+		</p>
+		<button id = "startbutt" onclick = "startsite()"></button>
 		</div>
 		<div id="dim"></div>
 		
 		<button id = "settings">Settings</button>
 
-		<button id = "soundfx" onclick = "mutemusic()">Mute SFX</button>
+		<button id = "soundfx" onclick = "mutemusic()"></button>
 		
 		
 		<img src = "imgcontbg.png"id = "imgcont"></img>
@@ -165,6 +199,7 @@
 		<button id = "play" onclick = "autoplay()"></button>
 		<progress id = "framenum" value = "0" max = "5"></progress>
 		<script>
+			document.body.style.zoom = "80%";
 			
 			var BGM = new Audio('Cyrus, the Scholar - Octopath Traveler Character Theme.mp3');
 			var image = document.getElementById("currentimg");
@@ -262,13 +297,16 @@
 				}
 			}
 			var musicmuted = false;
+			var buttonformute = document.getElementById("soundfx");
 			function mutemusic(){
 				if (musicmuted == false){
 					BGM.muted = true;
 					musicmuted = true;
+					buttonformute.style.backgroundImage = "url('Muteicon.png')";
 				}else{
 					BGM.muted = false;
 					musicmuted = false;
+					buttonformute.style.backgroundImage = "url('unmuteicon.png')";
 			}
 			}
 		</script>
