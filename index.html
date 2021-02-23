@@ -7,7 +7,7 @@
 			}
 			#body{
 			zoom: 80%;
-			background: url("theaterbg.jpg");
+			background-image: url("theaterbg.jpg");
 			margin: 0;
 			}
 			#BGM{
@@ -104,8 +104,13 @@
 			}
 
 			#settings{
+			background-image: url("settings.png");
+			
 			position: absolute;
 			border-radius: 50%;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 40px 40px;
 			width: 65px;
 			height: 65px;
 			z-index: 5;
@@ -180,10 +185,48 @@
 			top: 510px;
 			left: 780px;
 			}
+			#settingscont{
+			display: none;
+			top: 70px;
+			left: 30px;
+			z-index: 13;
+			position: absolute;
+			background-color: brown;
+			width: 350px;
+			height: 200px;
+			border-radius: 25px;
+			}
+			#soundicon{
+			position: absolute;
+			top: 15px;
+			left: 30px;
+			width: 50px;
+			height: 50px;
+			}
+			#volumeSlider{
+			position: absolute;
+			width: 200px;
+			top: 30px;
+			left: 100px;
+			background-color: black;
+			}
+			.slider::-webkit-slider-thumb{
+			border-radius: 50%; 
+			background-color: white;
+			}
+			.slider::-moz-range-thumb {
+			border-radius: 50%;
+			background-color: white;
+			}
 		</style>
 	</head>
 	<body onload = "startpage()" id = "body">
-	<img id = "loadicon" src = "animatedicon.gif"></img>
+		<div id = "settingscont">
+		<img id = "soundicon" src = "unmuteicon.png"></img>
+		<input type="range" min="0" max="0.1" step ="0.001" class="slider" id="volumeSlider" oninput = "changevolume()">
+		</div>
+	
+		<img id = "loadicon" src = "animatedicon.gif"></img>
 		<div id ="startup">
 		<p id = "startmessage">
 		<img src = "warning.png" id = "wrning"></img>
@@ -196,7 +239,7 @@
 		</div>
 		<div id="dim"></div>
 		
-		<button id = "settings">Settings</button>
+		<button id = "settings" onclick="showsettings()"></button>
 
 		<button id = "soundfx" onclick = "mutemusic()"></button>
 		
@@ -211,6 +254,8 @@
 		<progress id = "framenum" value = "0" max = "5"></progress>
 		
 		<script>
+			document.body.style.zoom = "80%";
+			document.getElementById("volumeSlider").value = "0.1";
 			var BGM = new Audio('Cyrus, the Scholar - Octopath Traveler Character Theme.mp3');
 			var image = document.getElementById("currentimg");
 			var nxt = document.getElementById("next");
@@ -222,13 +267,32 @@
 			var autoplayon = false;
 			var bar = document.getElementById("framenum");
 			var switchpage = new Audio('Search Spotlight Turn On Sound Effect-[AudioTrimmer.com].mp3');
+			var currentvol = "0.1";
+			switchpage.volume = "0.5"
+			
+			function changevolume(){
+			BGM.volume = document.getElementById("volumeSlider").value;
+			switchpage.volume = document.getElementById("volumeSlider").value;
+			currentvol = document.getElementById("volumeSlider").value;
+			}
+			
+			var settingson = false;
+			function showsettings(){
+			if(settingson == false){
+			document.getElementById("settingscont").style.display = "block";
+			settingson = true;
+			}else{
+			document.getElementById("settingscont").style.display = "none";
+			settingson = false;
+			}
+			}
 			
 			function startsite(){
 			document.getElementById("startup").style.display = "none";
 			document.getElementById("startbutt").style.display = "none"; 
 			document.getElementById("dim").style.display = "none";
 			BGM.loop = true;
-			BGM.volume = 0.3;
+			BGM.volume = 0.1;
 			BGM.play();
 			}
 			
@@ -258,14 +322,14 @@
 			}
 			function tonext(){
 			fadeout()
-			window.setTimeout(next, 100);
+			next();
 			window.setTimeout(fadein, 200);
 			switchpage.play();
 			
 			}
 			function toprev(){
 			fadeout()
-			window.setTimeout(prevs, 100);
+			prevs()
 			window.setTimeout(fadein, 200);
 			switchpage.play();
 			}
@@ -313,10 +377,12 @@
 					BGM.muted = true;
 					musicmuted = true;
 					buttonformute.style.backgroundImage = "url('Muteicon.png')";
+					document.getElementById("volumeSlider").value = 0;
 				}else{
 					BGM.muted = false;
 					musicmuted = false;
 					buttonformute.style.backgroundImage = "url('unmuteicon.png')";
+					document.getElementById("volumeSlider").value = currentvol;
 			}
 			}
 			function startpage(){
